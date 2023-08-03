@@ -14,49 +14,18 @@ public class TestCreateEnemy : MonoBehaviour
     private Transform _rangeB;
 
     private float currentTime;
-    private float tempInterval;
+    private float tempInterval = 1;
 
-    private bool isTimeRunning = false;
-
-    private void Start()
+    private void Update()
     {
-        EnemySpwan(1);
-    }
+        currentTime += Time.deltaTime;
 
-    private void EnemySpwan(float u)
-    {
-        isTimeRunning = true;
-        this.currentTime = 0;
-        StartCoroutine(IEEnemySpawn(u));
-    }
+        if (currentTime < tempInterval) return;
 
+        float x = Random.Range(_rangeA.position.x, _rangeB.position.x);
+        float y = Random.Range(_rangeA.position.y, _rangeB.position.y);
 
-    private IEnumerator IEEnemySpawn(float u)
-    {
-        this.tempInterval = u;
-
-        var count = 0f;
-        while (currentTime < 600f)
-        {
-            if (isTimeRunning)
-            {
-                this.currentTime += Time.deltaTime;
-                count += Time.deltaTime;
-            }
-            else
-            {
-                break;
-            }
-
-            if (count > u)
-            {
-                float x = Random.Range(_rangeA.position.x, _rangeB.position.x);
-                float y = Random.Range(_rangeA.position.y, _rangeB.position.y);
-
-                Instantiate(_enemyPre, new Vector2(x, y), Quaternion.identity);
-                count -= u;
-            }
-            yield return null;
-        }
+        Instantiate(_enemyPre, new Vector2(x, y), Quaternion.identity);
+        currentTime = 0;
     }
 }

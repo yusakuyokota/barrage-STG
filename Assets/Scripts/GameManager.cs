@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _objPlayer = null;
 
+    public GameObject ObjPlayer => _objPlayer;
+
     public bool IsPlayerDie = false;
 
     // Start is called before the first frame update

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8731537627605575830}
   - component: {fileID: 8731537627605575828}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8731537627605575827}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -146,3 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e1aa1c3c474904da670a6a3cd81ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyBullet: {fileID: -4676270829117322146, guid: 93b6e11dc3e3083408621c1d658490d7, type: 3}
+  _bulletSpeed: 0.1
+  _shotTimer: 0
+  _shotInterval: 0.5
