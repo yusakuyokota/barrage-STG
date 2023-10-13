@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e1aa1c3c474904da670a6a3cd81ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameManager: {fileID: 0}
   _enemyBullet: {fileID: -4676270829117322146, guid: 93b6e11dc3e3083408621c1d658490d7, type: 3}
   _bulletSpeed: 0.1
   _shotTimer: 0

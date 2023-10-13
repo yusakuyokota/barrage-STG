@@ -7,6 +7,14 @@ public class EnemyBulletModel : MonoBehaviour
     // 弾の速度
     private Vector3 _velocity;
 
+    private Vector3 _baseVelocity = new Vector3(0, -1, 0);
+
+    [SerializeField, Header("RandomShotの角度の始点")]
+    private float _angleStartPoint;
+
+    [SerializeField, Header("RandomShotの角度の終点")]
+    private float _angleEndPoint;
+
     private void Update()
     {
         Application.targetFrameRate = 60;
@@ -28,5 +36,12 @@ public class EnemyBulletModel : MonoBehaviour
 
         // 弾の速度を求める
         _velocity = direction * speed;
+    }
+
+    public void RandomShot(float speed)
+    {
+        Vector3 direction = Utils.GetDirection(Random.Range(_angleStartPoint, _angleEndPoint));
+
+        _velocity = direction.normalized * speed;
     }
 }

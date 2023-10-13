@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerBullet: {fileID: -8475913995122028900, guid: c6a992d07a913d243b4c00bb0d8fe3ad, type: 3}
   _bulletSpeed: 0.3
-  _fireAngleRange: 30
+  _fireAngleRange: 10
   _shotTimer: 0
   _shotCount: 3
   _shotInterval: 0.1
@@ -61,10 +61,10 @@ GameObject:
   - component: {fileID: 3843705051334368215}
   - component: {fileID: 3843705051334368216}
   - component: {fileID: -1265288205777705166}
-  - component: {fileID: 6210999155697261037}
   - component: {fileID: 3843705051334368217}
   - component: {fileID: 4332105676242688593}
   - component: {fileID: -4412564579453793323}
+  - component: {fileID: -9174715663337432733}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -81,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 3843705051334368218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6886607798572366117}
@@ -161,30 +161,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!68 &6210999155697261037
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3843705051334368218}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 0, y: 0.58}
-  - {x: 0.5, y: -0.29}
-  - {x: -0.5, y: -0.29}
-  - {x: 0, y: 0.58}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0.58}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!114 &3843705051334368217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,5 +201,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
-  MoveSpeed: 0.1
-  ShiftPushed: 0
+  _maxMoveSpeed: 0.01
+  _playerLife: 0
+--- !u!68 &-9174715663337432733
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843705051334368218}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0, y: 0.3}
+  - {x: -0.25, y: -0.15}
+  - {x: 0.25, y: -0.15}
+  - {x: 0, y: 0.3}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

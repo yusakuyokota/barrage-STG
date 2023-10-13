@@ -32,7 +32,7 @@ public class PlayerBulletModel : MonoBehaviour
     public void BulletInit(float angle, float speed)
     {
         // 発射角度からベクトルを取得する
-        Vector3 direction = GetDirection(angle);
+        Vector3 direction = Utils.GetDirection(angle);
 
         // 速度を求める
         _velocity = direction * speed;
@@ -41,20 +41,5 @@ public class PlayerBulletModel : MonoBehaviour
         var angles = transform.localEulerAngles;
         angles.z = angle - 90;
         transform.localEulerAngles = angles;
-    }
-
-    /// <summary>
-    /// 与えられた角度からベクトルを返す関数
-    /// </summary>
-    /// <param name="angle"></param>
-    /// <returns></returns>
-    private Vector3 GetDirection(float angle)
-    {
-        return new Vector3
-            (
-                Mathf.Cos(angle * Mathf.Deg2Rad),
-                Mathf.Sin(angle * Mathf.Deg2Rad),
-                0
-            );
     }
 }

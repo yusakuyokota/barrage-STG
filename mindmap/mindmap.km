@@ -1,0 +1,167 @@
+{
+    "root": {
+        "data": {
+            "id": "cw1tcr41z8g0",
+            "created": 1696641887721,
+            "text": "弾幕ゲームに必要なもの"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "cw1tcz90r4w0",
+                    "created": 1696641905436,
+                    "text": "画像"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cw1tdd6o1pk0",
+                            "created": 1696641935768,
+                            "text": "キャラクター表示",
+                            "expandState": "collapse"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cw1teuoz1zc0",
+                                    "created": 1696642052245,
+                                    "text": "移動"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cw1tf85b4800",
+                                    "created": 1696642081530,
+                                    "text": "被弾"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cw1tdjwfn0g0",
+                            "created": 1696641950387,
+                            "text": "敵キャラクター表示",
+                            "expandState": "collapse"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cw1tfsm3gq00",
+                                    "created": 1696642126081,
+                                    "text": "移動"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cw1tftowctk0",
+                                    "created": 1696642128427,
+                                    "text": "被弾"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cw1te1otm0w0",
+                            "created": 1696641989110,
+                            "text": "背景表示"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cw1te4g8pao0",
+                            "created": 1696641995120,
+                            "text": "小物表示"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cw1td1yfty80",
+                    "created": 1696641911326,
+                    "text": "制御"
+                },
+                "children": []
+            },
+            {
+                "data": {
+                    "id": "cw1tecu7eh40",
+                    "created": 1696642013379,
+                    "text": "音楽",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cw1tehwin480",
+                            "created": 1696642024403,
+                            "text": "BGM",
+                            "expandState": "collapse"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cw1tg3cls340",
+                                    "created": 1696642149452,
+                                    "text": "Play"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cw1tg4uifu00",
+                                    "created": 1696642152711,
+                                    "text": "Stop"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cw1tg6rd3go0",
+                                    "created": 1696642156875,
+                                    "text": "Pause"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cw1tg6sya400",
+                                    "created": 1696642156971,
+                                    "text": "Resume"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cw1tej7hpcg0",
+                            "created": 1696642027243,
+                            "text": "SE"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cw1tenh19n40",
+                            "created": 1696642036527,
+                            "text": "ジングル"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

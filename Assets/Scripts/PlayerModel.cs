@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
@@ -9,11 +10,13 @@ public class PlayerModel : MonoBehaviour
     private Rigidbody2D _rb = null;
 
     // プレイヤーの移動速度
-    [SerializeField]
-    private float _moveSpeed = 0.1f;
+    private float _moveSpeed = 0.05f;
 
-    // 左シフトキーが押されているか判定する変数
-    public bool LeftShiftPushed;
+    private bool _invincible = false;
+
+    public int _playerLife;
+
+    private Collider2D _collider2D = null;
 
     // Start is called before the first frame update
     void Start()
@@ -21,38 +24,57 @@ public class PlayerModel : MonoBehaviour
         // Null チェック
         if (_rb == null)
         {
-            _rb = this.GetComponent<Rigidbody2D>();
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
+        if (_collider2D == null)
+        {
+            _collider2D = GetComponent<Collider2D>();
+        }
+
+        _playerLife = GameManager.Instance.life;
+
+        if (_playerLife != 10)
+        {
+            _collider2D.isTrigger = false;
         }
     }
 
-    /// <summary>
-    /// 縦・横方向の入力に応じてプレイヤーを動かす関数
-    /// </summary>
-    /// <param name="pos">プレイヤーの位置</param>
-    /// <param name="horizontal">横方向の入力</param>
-    /// <param name="vertical">縦方向の入力</param>
-    /// <returns></returns>
-    public Vector3 PlayerMove(Vector3 pos, float horizontal, float vertical)
+    public Vector3 PlayerMove2(Vector3 pos, int keyX, int keyY)
     {
-        // 左シフトキーが押されている場合、移動速度を遅くする
-        if (LeftShiftPushed)
+        float speedY = Mathf.Abs(_rb.velocity.y);
+        float speedX = Mathf.Abs(_rb.velocity.x);
+
+        Vector3 velocity = Vector3.zero;
+
+        if (speedY < _moveSpeed)
         {
-            pos.x += horizontal * _moveSpeed / 10;
-            pos.y += vertical *_moveSpeed / 10;
+            velocity += Vector3.up * keyY;
         }
-        // 押されていない場合
-        else
+        if (speedX < _moveSpeed)
         {
-            pos.x += horizontal * _moveSpeed;
-            pos.y += vertical * _moveSpeed;
+            velocity += Vector3.right * keyX;
         }
 
-        // プレイヤーの位置を返す
+        velocity = velocity.normalized * _moveSpeed;
+
+        Debug.Log(velocity);
+
+        pos += velocity;
+
         return pos;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-
-    } 
+        // 敵の攻撃を食らったとき
+        if (collision.gameObject.tag == "EnemyShot")
+        {
+            if (!_invincible)
+            {
+                Destroy(collision.gameObject);
+                GameManager.Instance.IsPlayerDie = true;
+            }
+        }
+    }
 }
