@@ -139,7 +139,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!50 &353610720568498238
 Rigidbody2D:
@@ -228,8 +228,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   playerLife: 0
-  mainCol: {fileID: 0}
-  graseCol: {fileID: 0}
 --- !u!1 &8225387672963866310
 GameObject:
   m_ObjectHideFlags: 0
