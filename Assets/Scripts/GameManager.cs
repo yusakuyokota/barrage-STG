@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private static object _lock = new object();
 
-    private static GameManager _instance;
+    private static GameManager instance;
 
     public static GameManager Instance
     {
@@ -14,90 +14,130 @@ public class GameManager : MonoBehaviour
         {
             lock (_lock)
             {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance
+                    instance
                         = FindObjectOfType<GameManager>();
-                    if (_instance == null ) 
+                    if (instance == null ) 
                     {
                         var singletonObject = new GameObject();
-                        _instance = singletonObject.AddComponent<GameManager>();
+                        instance = singletonObject.AddComponent<GameManager>();
                         singletonObject.name = nameof(GameManager) + "(singleton)";
                     }
                 }
 
-                return _instance;
+                return instance;
             }
         }
     }
 
-    [SerializeField]
-    private GameObject _objPlayer = null;
+    private GameObject objPlayer = null;
+
+    private GameObject objEnemy = null;
 
     [SerializeField]
-    private GameObject _objEnemy = null;
+    private ScoreView scoreView;
 
-    private Vector3 _playerSpawnPos = new Vector3(0, -4, 0);
+    private Vector3 playerSpawnPos = new Vector3(Utils.XAxisMiddle, -4, 0);
 
-    public bool IsPlayerDie = false;
+    private bool isPlayerDie = false;
 
-    public int life = 10;
+    private bool isEnemyDie = false;
 
-    private uint _stageNum = 0;
+    [SerializeField]
+    private int life = 3;
+
+    public int Life => life;
+
+    private int score = 0;
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (instance != null && instance != this)
         {
-            // 一応 Warning で知らせる
-            Debug.LogWarning("インスタンスがかぶっている");
             Destroy(this);
             return;
         }
+
+        DontDestroyOnLoad(this);
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        scoreView.ScoreTextUpdate(score);
+
         SpawnPlayer();
         SpawnEnemy();
     }
 
     private void Update()
     {
-        if (IsPlayerDie)
+        if (isPlayerDie && objPlayer != null)
         {
-            Destroy(_objPlayer);
+            Destroy(objPlayer);
 
-            GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyShot");
-            foreach (GameObject bullet in bullets)
-            {
-                Destroy(bullet);
-            }
+            BulletDestroy();
 
-            StartCoroutine(DeraySpawnTime());
+            StartCoroutine(ReSpawn());
+        }
 
-            IsPlayerDie = false;
+        if (isEnemyDie && objEnemy != null)
+        {
+            Destroy(objEnemy);
+
+            BulletDestroy();
         }
     }
 
+    #region 内部処理
+
     private void SpawnPlayer()
     {
-        IsPlayerDie = false;
-        var obj = Resources.Load<GameObject>("Player");
-        _objPlayer = Instantiate(obj, _playerSpawnPos, Quaternion.identity);
+        isPlayerDie = false;
+        var obj = Resources.Load<GameObject>("Prefabs/Player");
+
+        if (objPlayer != null) return;
+
+        objPlayer = Instantiate(obj, playerSpawnPos, Quaternion.identity);
     }
 
     private void SpawnEnemy()
     {
-        var obj = Resources.Load<GameObject>("Enemy");
-        _objEnemy = Instantiate(obj, new Vector3(0, 4, 0), Quaternion.identity);
+        var obj = Resources.Load<GameObject>("Prefabs/Enemy");
+        objEnemy = Instantiate(obj, new Vector3(Utils.XAxisMiddle, 4, 0), Quaternion.identity);
     }
 
-    private IEnumerator DeraySpawnTime()
+    private IEnumerator ReSpawn()
     {
         yield return new WaitForSeconds(1f);
 
         SpawnPlayer();
     }
+
+    private void BulletDestroy()
+    {
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+    }
+
+    #endregion
+
+    #region 外部参照処理
+
+    public void SetPlayerDie() { isPlayerDie = true; }
+
+    public void SetEnemyDie() { isEnemyDie = true; }
+    public bool GetPlayerDie() { return isPlayerDie; }
+
+    public void ScoreUpdate(int plusScore)
+    {
+        score += plusScore;
+        scoreView.ScoreTextUpdate(score);
+    }
+
+    #endregion
 }

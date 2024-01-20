@@ -9,65 +9,73 @@ public class PlayerController : MonoBehaviour
 {
     // プレイヤーモデルのスクリプト
     [SerializeField]
-    private PlayerModel _playerModel = null;
+    private PlayerModel playerModel = null;
 
     // プレイヤービューのスクリプト
     [SerializeField]
-    private PlayerView _playerView = null;
+    private PlayerView playerView = null;
 
-    private readonly float _playerMoveSpeed = 0.5f;
+    [SerializeField]
+    private PlayerTurret turret;
 
-    private float _playerHorizontalMoveSpeed = 0f;
+    private ControllerInput inp;
 
-    private float _playerVerticalMoveSpeed = 0f;
+    private Vector2 moveInputValue;
 
-    private bool _leftShiftKeyDowned = false;
+    private bool leftShiftKeyDowned = false;
 
     private void Start()
     {
-        // Null チェック
-        if (_playerModel == null)
-        {
-            _playerModel = GetComponent<PlayerModel>();
-        }
+        Application.targetFrameRate = 60;
+
+        inp = ControllerManager.instance.CtrlInput;
+
+        inp.Enable();
 
         // Null チェック
-        if (_playerView == null)
-        {
-            _playerView = GetComponent<PlayerView>();
-        }
+        playerModel ??= GetComponent<PlayerModel>();
+        playerView ??= GetComponent<PlayerView>();
     }
 
     private void Update()
     {
-        Application.targetFrameRate = 60;
+        PlayerMove();
 
-        Keyboard keyboard = Keyboard.current;
+        if (inp.Player.MouseWheel.ReadValue<Vector2>() != Vector2.zero)
+            turret.FireAngleChange(InputMouseWheel().y);
+    }
 
-        if (keyboard == null)
-        {
-            Debug.LogError("キーボードが接続されていません");
-            UnityEditor.EditorApplication.isPaused = true;
-        }
+    /// <summary>
+    /// プレイヤー移動関数
+    /// </summary>
+    private void PlayerMove()
+    {
+        if (inp.Player.Shift.IsPressed()) leftShiftKeyDowned = true;
+        if (inp.Player.Shift.WasReleasedThisFrame()) leftShiftKeyDowned = false;
 
-        KeyControl wKey = keyboard.wKey;
-        KeyControl aKey = keyboard.aKey;
-        KeyControl sKey = keyboard.sKey;
-        KeyControl dKey = keyboard.dKey;
+        if (inp.Player.Move.IsPressed()) moveInputValue = OnMove();
+        if (inp.Player.Move.WasReleasedThisFrame()) moveInputValue = OnMove();
 
-        int keyX = 0;
-        int keyY = 0;
+        playerView.pos =
+            playerModel.PlayerMove(playerView.pos, moveInputValue, leftShiftKeyDowned);
+    }
 
-        if (wKey.isPressed) keyY = 1;
-        if (sKey.isPressed) keyY = -1;
-        if (dKey.isPressed) keyX = 1;
-        if (aKey.isPressed) keyX = -1;
+    /// <summary>
+    /// プレイヤーの移動方向を取得
+    /// </summary>
+    private Vector2 OnMove()
+    {
+        Vector2 plMoveDirection = inp.Player.Move.ReadValue<Vector2>();
+        return plMoveDirection;
+    }
 
-        if (Input.GetKey(KeyCode.LeftShift)) _leftShiftKeyDowned = true;
-        if (Input.GetKeyUp(KeyCode.LeftShift)) _leftShiftKeyDowned = false;
-
-        _playerView._pos = _playerModel.PlayerMove2(_playerView._pos
-                                                  , keyX
-                                                  , keyY );
+    /// <summary>
+    /// マウスホイールの回転を取得して正規化する
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 InputMouseWheel()
+    {
+        Vector2 mouseWheel = inp.Player.MouseWheel.ReadValue<Vector2>().normalized;
+        return mouseWheel;
     }
 }

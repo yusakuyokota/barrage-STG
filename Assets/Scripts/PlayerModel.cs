@@ -7,60 +7,28 @@ public class PlayerModel : MonoBehaviour
 {
     // プレイヤーの Rigidbody2D
     [SerializeField]
-    private Rigidbody2D _rb = null;
+    private Rigidbody2D rb = null;
 
     // プレイヤーの移動速度
-    private float _moveSpeed = 0.05f;
+    private float moveSpeed = 0.1f;
 
-    private bool _invincible = false;
+    private bool invincible = false;
 
-    public int _playerLife;
-
-    private Collider2D _collider2D = null;
+    public int playerLife;
 
     // Start is called before the first frame update
     void Start()
     {
         // Null チェック
-        if (_rb == null)
-        {
-            _rb = GetComponent<Rigidbody2D>();
-        }
+        rb ??= GetComponent<Rigidbody2D>();
 
-        if (_collider2D == null)
-        {
-            _collider2D = GetComponent<Collider2D>();
-        }
-
-        _playerLife = GameManager.Instance.life;
-
-        if (_playerLife != 10)
-        {
-            _collider2D.isTrigger = false;
-        }
+        playerLife = GameManager.Instance.Life;
     }
 
-    public Vector3 PlayerMove2(Vector3 pos, int keyX, int keyY)
+    public Vector3 PlayerMove(Vector2 pos, Vector2 velocity, bool shift)
     {
-        float speedY = Mathf.Abs(_rb.velocity.y);
-        float speedX = Mathf.Abs(_rb.velocity.x);
-
-        Vector3 velocity = Vector3.zero;
-
-        if (speedY < _moveSpeed)
-        {
-            velocity += Vector3.up * keyY;
-        }
-        if (speedX < _moveSpeed)
-        {
-            velocity += Vector3.right * keyX;
-        }
-
-        velocity = velocity.normalized * _moveSpeed;
-
-        Debug.Log(velocity);
-
-        pos += velocity;
+        if (shift) pos += velocity *moveSpeed / 2;
+        else pos += velocity * moveSpeed;
 
         return pos;
     }
@@ -68,12 +36,12 @@ public class PlayerModel : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 敵の攻撃を食らったとき
-        if (collision.gameObject.tag == "EnemyShot")
+        if (collision.gameObject.tag == "EnemyBullet")
         {
-            if (!_invincible)
+            if (!invincible)
             {
                 Destroy(collision.gameObject);
-                GameManager.Instance.IsPlayerDie = true;
+                GameManager.Instance.SetPlayerDie();
             }
         }
     }

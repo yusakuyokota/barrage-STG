@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    public Vector3 _pos;
+    public Vector2 pos;
 
     private void Start()
     {
-        _pos = transform.position;
+        pos = transform.position;
     }
 
     private void Update()
     {
-        transform.position = _pos;
+        transform.position = pos;
     }
 }
